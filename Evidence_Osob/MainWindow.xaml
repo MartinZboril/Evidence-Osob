@@ -5,8 +5,49 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Evidence_Osob"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
+        Title="MainWindow" MinHeight="425" Height="425" MaxHeight="425" MinWidth="725" Width="725" MaxWidth="725">
+    <Grid Background="#FFE8E8E8">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="450"/>
+            <ColumnDefinition Width="275"/>
+        </Grid.ColumnDefinitions>
+
+        <ListView x:Name="PersonListView" SelectionChanged="PersonListView_SelectionChangedAsync" Grid.Column="0" Margin="0,10,0,0"></ListView>
+
+        <Grid Background="#FFE8E8E8" Grid.Column="1" Margin="0,0,8,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"></RowDefinition>
+                <RowDefinition Height="95*"></RowDefinition>
+                <RowDefinition Height="77*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+
+            <TextBlock FontSize="20" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Height="26" Margin="66,12,57,12" Width="144" FontWeight="Bold">Databáze Osob</TextBlock>
+            <TextBlock Grid.Column="0" Grid.Row="1" FontSize="14" FontWeight="Bold"  HorizontalAlignment="Left" VerticalAlignment="Center" Height="20" Width="55" Margin="42,15,0,155">Jméno:</TextBlock>
+            <TextBlock Grid.Column="0" Grid.Row="1"  FontSize="14" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Height="20" Width="64" Margin="28,45,0,125">Příjmení:</TextBlock>
+            <TextBlock Grid.Column="0" Grid.Row="1" FontSize="14" FontWeight="Bold"  HorizontalAlignment="Left" VerticalAlignment="Center" Height="20" Width="61" Margin="31,75,0,95">RN číslo:</TextBlock>
+            <TextBlock Grid.Column="0" Grid.Row="1" FontSize="14" FontWeight="Bold"  HorizontalAlignment="Left" VerticalAlignment="Center" Height="20" Width="110" Margin="10,100,0,70">Datum narození:</TextBlock>
+            <TextBlock Grid.Column="0" Grid.Row="1" FontSize="14" FontWeight="Bold"  HorizontalAlignment="Left" VerticalAlignment="Center" Height="20" Width="56" Margin="36,129,0,41">Pohlaví:</TextBlock>
+
+            <TextBox x:Name="FirstName" Grid.Row="1" Margin="97,10,27,155" Grid.ColumnSpan="2"/>
+            <TextBox x:Name="LastName" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="97,40,27,125"></TextBox>
+            <TextBox x:Name="RN" Grid.Row="1"  Margin="97,70,99,95" Grid.ColumnSpan="2"/>
+            <TextBlock Grid.Column="1" Grid.Row="1" Margin="39.5,65,84,100" FontSize="20">/</TextBlock>
+            <TextBox x:Name="RN2" Grid.Column="1" Grid.Row="1" Margin="54.5,70,26,95"></TextBox>
+            <DatePicker x:Name="DateOfBirth" Margin="125,100,27,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Grid.Row="1"/>
+            <ComboBox x:Name="Sex" Grid.Row="1"   Grid.ColumnSpan="2" Margin="99,129,25,36">
+                <ComboBoxItem Content="Muž" />
+                <ComboBoxItem Content="Žena" />
+            </ComboBox>
+
+            <Button x:Name="AddButton" Click="AddButton_ClickAsync" Grid.Row="2" Grid.ColumnSpan="2" Content="Přidat" Margin="86,10,86,109"/>
+            <Button x:Name="UpdateButton" Click="UpdateButton_Click" Visibility="Hidden" Grid.Row="2" Content="Změnit" Margin="28,10,9.5,109" />
+            <Button x:Name="DeleteButton" Click="DeleteButton_ClickAsync" Visibility="Hidden" Grid.Row="2" Content="Smazat" Margin="10.5,10,26,109" Grid.Column="1" />
+            <TextBlock x:Name="Message" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="31,69,27,59" Width="209" Height="26" TextAlignment="Center"></TextBlock>
+        </Grid>
     </Grid>
 </Window>
