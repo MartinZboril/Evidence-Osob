@@ -82,6 +82,9 @@ namespace Evidence_Osob
                 AddButton.Visibility = Visibility.Visible;
                 UpdateButton.Visibility = Visibility.Hidden;
                 DeleteButton.Visibility = Visibility.Hidden;
+                RN.IsEnabled = true;
+                RN2.IsEnabled = true;
+                ClearForm();
             }
         }
 
