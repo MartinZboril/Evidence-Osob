@@ -36,7 +36,7 @@ namespace Evidence_Osob
         private async void AddButton_ClickAsync(object sender, RoutedEventArgs e)
         {
             //Kontrola vstupů
-            if (FirstName.Text.Equals("").Equals(false) && int.TryParse(FirstName.Text, out int Nothing).Equals(false) && LastName.Text.Equals("").Equals(false) && int.TryParse(LastName.Text, out int Nothing1).Equals(false) && int.TryParse(RN.Text, out int RNPart1) && int.TryParse(RN2.Text, out int RNPart2) && Sex.Text.Equals("").Equals(false))
+            if (FirstName.Text.Equals("").Equals(false) && int.TryParse(FirstName.Text, out int Nothing).Equals(false) && LastName.Text.Equals("").Equals(false) && int.TryParse(LastName.Text, out int Nothing1).Equals(false) && int.TryParse(RN.Text, out int RNPart1) && int.TryParse(RN2.Text, out int RNPart2) && DateOfBirth.Text.Equals("").Equals(false) && Sex.Text.Equals("").Equals(false))
             {
                 Person item = new Person();
                 item.Name = FirstName.Text;
