@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +26,8 @@ namespace Evidence_Osob
         dataService dataservice = new dataService();
         ObservableCollection<Person> persons = new ObservableCollection<Person>();
         Person person = new Person();
+        int month;
+        DateTime test = new DateTime();
         public MainWindow()
         {
             InitializeComponent();
@@ -38,19 +41,32 @@ namespace Evidence_Osob
             //Kontrola vstupů
             if (FirstName.Text.Equals("").Equals(false) && int.TryParse(FirstName.Text, out int Nothing).Equals(false) && LastName.Text.Equals("").Equals(false) && int.TryParse(LastName.Text, out int Nothing1).Equals(false) && int.TryParse(RN.Text, out int RNPart1) && int.TryParse(RN2.Text, out int RNPart2) && DateOfBirth.Text.Equals("").Equals(false) && Sex.Text.Equals("").Equals(false))
             {
-                Person item = new Person();
-                item.Name = FirstName.Text;
-                item.Surname = LastName.Text;
-                item.RC = RNPart1 + "/" + RNPart2;
-                item.DateOfBirth = DateOfBirth.Text;
-                item.Gender = Sex.Text;
+                if (RNPart2.ToString().Length == 4)
+                {
+                    Person item = new Person();
+                    item.Name = FirstName.Text;
+                    item.Surname = LastName.Text;
+                    item.RC = RNPart1 + "/" + RNPart2;
+                    item.DateOfBirth = DateOfBirth.Text;
+                    item.Gender = Sex.Text;
 
-                await dataservice.PostPerson(item);
+                    if (persons.Any(x => x.RC == item.RC)){
+                        Message.Text = "Osoba s tímto RN je již zaregistrovaná!";
+                    }
+                    else
+                    {
+                        await dataservice.PostPerson(item);
+                        ClearForm();
+                        Message.Text = "Osoba byla úspěšně přidána!";
+                    }                  
 
-                ClearForm();
-                Message.Text = "Osoba byla úspěšně přidána!";
-
-                await DisplayPersonsAsync();
+                    await DisplayPersonsAsync();
+                }
+                else
+                {
+                    Message.Text = "Špatně vypněno!";
+                    await DisplayPersonsAsync();
+                }
             }
             else
             {
@@ -67,7 +83,6 @@ namespace Evidence_Osob
                 AddButton.Visibility = Visibility.Hidden;
                 UpdateButton.Visibility = Visibility.Visible;
                 DeleteButton.Visibility = Visibility.Visible;
-                RN.IsEnabled = false;
                 RN2.IsEnabled = false;
                 person = PersonListView.SelectedItem as Person;
                 tempSelectedIndex = PersonListView.SelectedIndex;
@@ -85,7 +100,6 @@ namespace Evidence_Osob
                 AddButton.Visibility = Visibility.Visible;
                 UpdateButton.Visibility = Visibility.Hidden;
                 DeleteButton.Visibility = Visibility.Hidden;
-                RN.IsEnabled = true;
                 RN2.IsEnabled = true;
                 ClearForm();
             }
@@ -126,7 +140,7 @@ namespace Evidence_Osob
             var person = PersonListView.SelectedItem as Person;
             await dataservice.DeletePersonAsync(person);
             Message.Text = "Osoba byla smazána!";
-            await DisplayPersonsAsync();
+            DisplayPersonsAsync();
         }
 
         public async Task DisplayPersonsAsync()
@@ -135,12 +149,56 @@ namespace Evidence_Osob
             PersonListView.ItemsSource = persons;
         }
 
+        private void DatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var picker = sender as DatePicker;
+            DateTime? date = picker.SelectedDate;
+            
+            test = (DateTime)date;
+            month = int.Parse(test.ToString("MM"));
+            FormatedRC();
+        }
+
+        private void Sex_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var value = sender as ComboBox;
+            string picker = value.Text;
+
+            if (picker.Equals("Žena"))
+            {
+                if (month < 50)
+                {
+                    month += 50;
+                    FormatedRC();
+                }
+            }
+            else if (month > 20)
+            {
+                month -= 50;
+                FormatedRC();
+            }         
+        }
+
+        public void FormatedRC()
+        {
+            if (month > 9)
+            {
+                string date1 = test.ToString("yy" + month.ToString() + "dd");
+                RN.Text = date1;
+            }
+            else
+            {
+                string date1 = test.ToString("yy" + "0" + month.ToString() + "dd");
+                RN.Text = date1;
+            }
+        }
+
         //Vyprázdnění formuláře po odeslání
         private void ClearForm()
         {
             FirstName.Text = " ";
             LastName.Text = " ";
-            RN.Text = " ";
+            //RN.Text = " ";
             RN2.Text = " ";
             DateOfBirth.Text = " ";
             Sex.Text = " ";
