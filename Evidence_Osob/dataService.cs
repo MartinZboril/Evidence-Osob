@@ -61,12 +61,12 @@ namespace Evidence_Osob
 
         public async Task UpdatePersonsync(Person item)
         {
-            var uri = new Uri(string.Format("http://martinzboril.cz/Evidence_Osob_API/API.php", string.Empty));
+            var uri = new Uri(string.Format("http://martinzboril.cz/Evidence_Osob_API/Update.php", string.Empty));
 
             var json = JsonConvert.SerializeObject(item);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            HttpResponseMessage response = await client.PutAsync(uri, content);
+            HttpResponseMessage response = await client.PostAsync(uri, content);
 
             if (response.IsSuccessStatusCode)
             {
